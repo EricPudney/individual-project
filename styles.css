@@ -1,0 +1,30 @@
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+#logo {
+    width:40px;
+}
+
+span {
+    font-family: "Tilt Neon";
+    font-size: 1.5rem;
+}
+
+.left {
+    display: flex;
+    margin-right: auto;
+    align-items: center;
+    gap: 1rem;
+    margin-left: 1rem;
+}
+.right {
+    display: flex;
+    margin-left: auto; 
+    align-items: center;
+    gap: 1rem;
+    margin-right: 1rem;
+}
