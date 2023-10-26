@@ -1,0 +1,23 @@
+fetch('https://dummyjson.com/posts')
+.then(res => res.json())
+.then(function (response) {
+  createPosts(response.posts);
+});
+
+
+const mainPage = document.getElementById("posts");
+
+function createPosts(data) {
+    for (let obj of data) {
+        let newPost = document.createElement("div");
+        newPost.classList.add("post");
+        let title = document.createElement("h2");
+        title.innerText = obj.title;
+        let body = document.createElement("p");
+        body.innerText = obj.body;
+        let tags = document.createElement("span");
+        tags.innerText = obj.tags;
+        newPost.append(title, body, tags);
+        mainPage.append(newPost);
+    }
+}
