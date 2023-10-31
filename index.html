@@ -6,14 +6,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rokkitt&display=swap" rel="stylesheet">
   </head>
   <body>
     <header>
         <div class="left">
         <img src="/images/post-it.jpg" id="logo">
-        <span >postit</span>
+        <span>postit</span>
         </div>
-        <input>
+        <input id="searchbar" placeholder="Search...">
         <div class="right">
         <button>Get App</button>
         <button>Log In</button>
@@ -40,10 +41,23 @@
             </details>
         </div>
         <div id="posts">
-
+          <details>
+            <summary>Add a new post!</summary>
+            <form>
+              <label for="newTitle">Title</label><br>
+              <input id="newTitle" maxlength="50" required="true"><br>
+              <label for="newBody">Body</label><br>
+              <textarea id="newBody" style="height:6rem"></textarea>
+              <br>
+              <label for="newTags">Tags</label><br>
+              <input id="newTags" maxlength="40" required="true">
+              <button id="addPost">Add post!</button>
+            </form>
+          </details>
+          
         </div>
         <div id="sidebar-r">
-            Communities<br>
+            <span>Communities</span><br>
 
         </div>
     </main>
