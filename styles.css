@@ -75,11 +75,14 @@ main {
 
 details {
     font-family: "Rokkitt";
+    margin-bottom: 0.7rem;
 }
 
-.right > button {
-    width:50px;
-    height: 50px;
+summary {
+    margin-bottom: 0.7rem;
+}
+
+button {
     background-color: rgb(157, 64, 64);
     border: none;
     border-radius: 30%;
@@ -87,9 +90,16 @@ details {
     color: white;
 }
 
-.right > button:hover {
+.right > button {
+    width:50px;
+    height: 50px;
+}
+
+button:hover {
     background-color: pink;
     border-radius: 10%;
+    color: black;
+    cursor: pointer;
 }
 
 #searchbar {
@@ -101,3 +111,11 @@ form {
     display: flex;
     flex-direction: column;
 }
+
+#addPost {
+    width: 5rem;
+    height: 3rem;
+    align-self: center;
+    margin-top: 1.5rem;
+}
+

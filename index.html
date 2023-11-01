@@ -45,12 +45,12 @@
             <summary>Add a new post!</summary>
             <form>
               <label for="newTitle">Title</label><br>
-              <input id="newTitle" maxlength="50" required="true"><br>
+              <input id="newTitle" name="newTitle" maxlength="50" required="true"><br>
               <label for="newBody">Body</label><br>
-              <textarea id="newBody" style="height:6rem"></textarea>
+              <textarea id="newBody" name="newBody" required="true" style="height:6rem"></textarea>
               <br>
               <label for="newTags">Tags</label><br>
-              <input id="newTags" maxlength="40" required="true">
+              <input id="newTags" name="newTags" maxlength="40" required="true">
               <button id="addPost">Add post!</button>
             </form>
           </details>
