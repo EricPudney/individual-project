@@ -45,7 +45,8 @@ function renderPosts(arr) {
     likes.innerText = arr[i].reactions;
     react.append(img, likes);
     react.addEventListener("click", () => {
-      likes.innerText = parseInt(likes.innerText) + 1;
+      arr[i].reactions = parseInt(arr[i].reactions +1);
+      likes.innerText = arr[i].reactions;
     });
     newPost.append(title, body, tags, react);
     mainPage.append(newPost);
