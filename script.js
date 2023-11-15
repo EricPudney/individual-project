@@ -31,12 +31,13 @@ function renderPosts(arr) {
     body.innerText = arr[i].body;
     let tags = document.createElement("span");
     //puts commas and spaces between tags
-    let text = "";
+    /*let text = "";
     for (j = 0; j < arr[i].tags.length; j++) {
       text = text + arr[i].tags[j] + ", ";
     }
     text = text.slice(0, text.length - 2);
-    tags.innerText = text;
+    tags.innerText = text;*/
+    tags.innerText = arr[i].tags;
     //creates likes button and counter
     let react = document.createElement("div");
     let img = document.createElement("img");
@@ -103,14 +104,16 @@ function addNew() {
     newMsg.body = newBody.value; 
     newMsg.tags = newTags.value;
     newMsg.reactions = 0;
-    postStorage.push(newMsg);
+    postStorage.unshift(newMsg);
+    mainPage.innerHTML = "";
+    newTitle.value = "";
+    newBody.value = "";
+    newTags.value = "";
     renderPosts(postStorage);
+    // not quite sure where this should be at present - leaving it here for now
+    // also need to clear() local storage once it has loaded
     for (i=0; i<postStorage.length; i++) {
       localStorage.setItem("post" + i, JSON.stringify(postStorage[i]));
     }
   }
 }
-
-//localStorage.setItem("posts", JSON.stringify(postStorage));
-
-

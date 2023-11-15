@@ -1,67 +1,71 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Reddit clone</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Rokkitt&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  </head>
-  <body>
-    <header>
-        <div class="left">
-        <img src="/images/post-it.jpg" id="logo">
-        <span>postit</span>
-        </div>
-        <input id="searchbar" placeholder="Search...">
-        <div class="right">
-        <button class="pink-btn">Get App</button>
-        <button class="pink-btn">Log In</button>
-        <span>...</span>
-        </div>
-    </header>
-    <main>
-        <div id="sidebar-l">
-            <span>Popular</span>
-            <details>
-                <summary>Topics</summary>
-                Gaming<br>
-                Sports<br>
-                Business<br>
-                Crypto<br>
-                Television<br>
-                Celebrity<br>
-            </details>
-            <details>
-                <summary>Resources</summary>
-                About postit<br>
-                Advertise<br>
-                Help<br> Blog<br> Careers<br> Press
-            </details>
-        </div>
-        <div id="posts">
-          <details>
-            <summary>Add a new post!</summary>
-            <form>
-              <label for="newTitle">Title</label><br>
-              <input id="newTitle" name="newTitle" maxlength="50" required="true"><br>
-              <label for="newBody">Body</label><br>
-              <textarea id="newBody" name="newBody" required="true" style="height:6rem"></textarea>
-              <br>
-              <label for="newTags">Tags</label><br>
-              <input id="newTags" name="newTags" maxlength="40" required="true">
-              <button id="addPost" class="pink-btn" type="button">Add post!</button>
-            </form>
-          </details>
-          
-        </div>
-        <div id="sidebar-r">
-            <span>Communities</span><br>
 
-        </div>
-    </main>
-    <script src="script.js"></script>
-  </body>
+<head>
+  <title>Reddit clone</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rokkitt&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <div class="left">
+      <img src="/images/post-it.jpg" id="logo">
+      <span>postit</span>
+    </div>
+    <input id="searchbar" placeholder="Search...">
+    <div class="right">
+      <button class="pink-btn">Get App</button>
+      <button class="pink-btn">Log In</button>
+      <span>...</span>
+    </div>
+  </header>
+  <main>
+    <div id="sidebar-l">
+      <span>Popular</span>
+      <details>
+        <summary>Topics</summary>
+        Gaming<br>
+        Sports<br>
+        Business<br>
+        Crypto<br>
+        Television<br>
+        Celebrity<br>
+      </details>
+      <details>
+        <summary>Resources</summary>
+        About postit<br>
+        Advertise<br>
+        Help<br> Blog<br> Careers<br> Press
+      </details>
+    </div>
+    <div id="middle">
+      <details>
+        <summary>Add a new post!</summary>
+        <form>
+          <label for="newTitle">Title</label><br>
+          <input id="newTitle" name="newTitle" maxlength="50" required="true"><br>
+          <label for="newBody">Body</label><br>
+          <textarea id="newBody" name="newBody" required="true" style="height:6rem"></textarea>
+          <br>
+          <label for="newTags">Tags</label><br>
+          <input id="newTags" name="newTags" maxlength="40" required="true">
+          <button id="addPost" class="pink-btn" type="button">Add post!</button>
+        </form>
+      </details>
+      <div id="posts">
+      </div>
+    </div>
+    <div id="sidebar-r">
+      <span>Communities</span><br>
+
+    </div>
+  </main>
+  <script src="script.js"></script>
+</body>
+
 </html>
