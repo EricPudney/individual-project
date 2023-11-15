@@ -50,18 +50,21 @@ main {
 }
 
 .post {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     border: 1px solid lightgrey;
     border-radius: 1rem;
     margin-bottom: 0.5rem;
     padding: 0.5rem;
     font-family: "Rokkitt";
+    gap: 0.8rem;
 }
 
 .post:hover {
     background-color: lightgray;
-    cursor: pointer;
+}
+
+.post > h2, .post > p {
+    grid-column: 1 / 3;
 }
 
 .post > span {
@@ -82,7 +85,7 @@ summary {
     margin-bottom: 0.7rem;
 }
 
-button {
+.pink-btn {
     background-color: rgb(157, 64, 64);
     border: none;
     border-radius: 30%;
@@ -95,7 +98,7 @@ button {
     height: 50px;
 }
 
-button:hover {
+.pink-btn:hover {
     background-color: pink;
     border-radius: 10%;
     color: black;
@@ -119,3 +122,23 @@ form {
     margin-top: 1.5rem;
 }
 
+.post > div {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+    justify-self: end;
+    margin-right: 2rem;
+    cursor: pointer;
+}
+
+.post > div > button {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+    font-family: "Rokkitt";
+    font-weight: 900;
+    border: none;
+    border-radius: 50%;
+    background-color: lightgreen;
+    color: red;
+    cursor: pointer;
+}
