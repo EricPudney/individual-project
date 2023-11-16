@@ -1,14 +1,28 @@
 // defines area for posts to appear in and array for storing posts
 const mainPage = document.getElementById("posts");
 const postStorage =  [];
+let newMsg = {  };
 
-// gets initial data from dummyJSON and renders it in HTML doc
-fetch('https://dummyjson.com/posts')
+// gets initial data from either local storage or dummyJSON and adds it to array
+if (localStorage.length > 0) {
+  for (let i = 0; i<localStorage.length; i++) {
+  let item = localStorage.getItem(localStorage.key(i));
+  let obj = JSON.parse(item);
+  postStorage.push(obj);
+}
+localStorage.clear();
+renderPosts(postStorage);
+}
+else {
+  fetch('https://dummyjson.com/posts')
   .then(res => res.json())
   .then(function (response) {
     fillArray(response.posts);
   });
+}
 
+
+// populates array and sends it to be rendered
 function fillArray(data) {
   for (let obj of data) {
     const newObj = {};
@@ -21,6 +35,7 @@ function fillArray(data) {
   renderPosts(postStorage);
 }
 
+// uses array to create HTML elements for each post
 function renderPosts(arr) {
   for (let i=0; i<arr.length; i++) {
     let newPost = document.createElement("div");
@@ -30,7 +45,7 @@ function renderPosts(arr) {
     let body = document.createElement("p");
     body.innerText = arr[i].body;
     let tags = document.createElement("span");
-    //puts commas and spaces between tags
+    //puts commas and spaces between tags - doesn't work with new posts
     /*let text = "";
     for (j = 0; j < arr[i].tags.length; j++) {
       text = text + arr[i].tags[j] + ", ";
@@ -38,7 +53,7 @@ function renderPosts(arr) {
     text = text.slice(0, text.length - 2);
     tags.innerText = text;*/
     tags.innerText = arr[i].tags;
-    //creates likes button and counter
+    //creates clickable like button and counter
     let react = document.createElement("div");
     let img = document.createElement("img");
     img.src = "images/thumb.jpg";
@@ -48,6 +63,7 @@ function renderPosts(arr) {
     react.addEventListener("click", () => {
       arr[i].reactions = parseInt(arr[i].reactions +1);
       likes.innerText = arr[i].reactions;
+      savePosts();
     });
     newPost.append(title, body, tags, react);
     mainPage.append(newPost);
@@ -94,7 +110,6 @@ const addPost = document.getElementById("addPost");
 addPost.addEventListener("click", addNew);
 
 // adds new posts and saves array of posts to local storage
-let newMsg = { title: "", body: "", tags: "", reactions: 0 };
 function addNew() {
   if (newTitle.value === "" || newBody.value === "" || newTags.value === "") {
     return;
@@ -110,10 +125,15 @@ function addNew() {
     newBody.value = "";
     newTags.value = "";
     renderPosts(postStorage);
-    // not quite sure where this should be at present - leaving it here for now
-    // also need to clear() local storage once it has loaded
+    savePosts();
+  }
+}    
+
+// saves posts to local storage (after new post added or reaction)
+function savePosts() {
+   localStorage.clear();
     for (i=0; i<postStorage.length; i++) {
       localStorage.setItem("post" + i, JSON.stringify(postStorage[i]));
     }
-  }
 }
+   
