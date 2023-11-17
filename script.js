@@ -1,28 +1,38 @@
 // defines area for posts to appear in and array for storing posts
 const mainPage = document.getElementById("posts");
-const postStorage =  [];
-let newMsg = {  };
+const postStorage = [];
 
-// gets initial data from either local storage or dummyJSON and adds it to array
+// defines new posts as objects
+let newMsg = {};
+
+// defines fields in form to add new posts
+const newTitle = document.getElementById("newTitle");
+const newBody = document.getElementById("newBody");
+const newTags = document.getElementById("newTags");
+const addPost = document.getElementById("addPost");
+addPost.addEventListener("click", addNew);
+
+// gets initial data from either local storage OR dummyJSON and adds it to array
 if (localStorage.length > 0) {
-  for (let i = 0; i<localStorage.length; i++) {
-  let item = localStorage.getItem(localStorage.key(i));
-  let obj = JSON.parse(item);
-  postStorage.push(obj);
-}
-localStorage.clear();
-renderPosts(postStorage);
+  for (let i = 0; i < localStorage.length; i++) {
+    let item = localStorage.getItem(localStorage.key(i));
+    let obj = JSON.parse(item);
+    postStorage.push(obj);
+  }
+  // sorts stored posts by likes and renders them
+  postStorage.sort((a, b) => b.reactions - a.reactions);
+  renderPosts(postStorage);
 }
 else {
   fetch('https://dummyjson.com/posts')
-  .then(res => res.json())
-  .then(function (response) {
-    fillArray(response.posts);
-  });
+    .then(res => res.json())
+    .then(function (response) {
+      fillArray(response.posts);
+    });
 }
 
 
-// populates array and sends it to be rendered
+// populates array, sorts it by likes, and sends it to be rendered
 function fillArray(data) {
   for (let obj of data) {
     const newObj = {};
@@ -32,12 +42,13 @@ function fillArray(data) {
     newObj.reactions = obj.reactions;
     postStorage.push(newObj);
   }
+  postStorage.sort((a, b) => b.reactions - a.reactions);
   renderPosts(postStorage);
 }
 
 // uses array to create HTML elements for each post
 function renderPosts(arr) {
-  for (let i=0; i<arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     let newPost = document.createElement("div");
     newPost.classList.add("post");
     let title = document.createElement("h2");
@@ -61,7 +72,7 @@ function renderPosts(arr) {
     likes.innerText = arr[i].reactions;
     react.append(img, likes);
     react.addEventListener("click", () => {
-      arr[i].reactions = parseInt(arr[i].reactions +1);
+      arr[i].reactions = parseInt(arr[i].reactions + 1);
       likes.innerText = arr[i].reactions;
       savePosts();
     });
@@ -102,13 +113,6 @@ function renderPosts(arr) {
   }
 }*/
 
-// defines fields in form to add new posts
-const newTitle = document.getElementById("newTitle");
-const newBody = document.getElementById("newBody");
-const newTags = document.getElementById("newTags");
-const addPost = document.getElementById("addPost");
-addPost.addEventListener("click", addNew);
-
 // adds new posts and saves array of posts to local storage
 function addNew() {
   if (newTitle.value === "" || newBody.value === "" || newTags.value === "") {
@@ -116,7 +120,7 @@ function addNew() {
   }
   else {
     newMsg.title = newTitle.value;
-    newMsg.body = newBody.value; 
+    newMsg.body = newBody.value;
     newMsg.tags = newTags.value;
     newMsg.reactions = 0;
     postStorage.unshift(newMsg);
@@ -127,13 +131,12 @@ function addNew() {
     renderPosts(postStorage);
     savePosts();
   }
-}    
+}
 
 // saves posts to local storage (after new post added or reaction)
 function savePosts() {
-   localStorage.clear();
-    for (i=0; i<postStorage.length; i++) {
-      localStorage.setItem("post" + i, JSON.stringify(postStorage[i]));
-    }
+  localStorage.clear();
+  for (i = 0; i < postStorage.length; i++) {
+    localStorage.setItem("post" + i, JSON.stringify(postStorage[i]));
+  }
 }
-   
