@@ -33,7 +33,8 @@ else {
     });
 }
 
-// populates array from JSON data, sorts it by likes, and sends it to be rendered
+/* populates array from JSON data, sorts it by likes, and sends it to be rendered
+ (see below for explanation of the repetition) */
 function fillArray(data) {
   for (let obj of data) {
     const newObj = {};
@@ -89,8 +90,8 @@ function addNew() {
     return;
   }
 /* defines new post object, newMsg, to be added to array from user input.
- Tags dealt with first to avoid unnecessarily setting other values before 
- input has been checked for tags. */
+ Tags dealt with first to avoid unnecessarily setting other values if tags
+ have not been chosen */
   else {
     let newTagtxt = "";
     let tagEntered = false;
@@ -107,7 +108,8 @@ function addNew() {
     }
 /* checks for 1+ tags before adding new post at the start of the array/top of the page
  (on refresh, new posts are sorted by reactions along with all other posts) - this seemed 
- to me to be the best way to handle new posts */
+ to me to be the best way to handle new posts, although it does mean that the code for sorting 
+ posts is repeated rather than being included in the renderPosts() function */
     if (!tagEntered) {
       alert("Please choose at least one tag");
       return;
