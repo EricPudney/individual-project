@@ -2,13 +2,16 @@
 const mainPage = document.getElementById("posts");
 const postStorage = [];
 
+// creates dropdown
+const filter = document.getElementById("filter");
+filter.addEventListener("change", newFilter);
+
 // defines new posts as objects
 let newMsg = {};
 
 // defines fields in form to add new posts
 const newTitle = document.getElementById("newTitle");
 const newBody = document.getElementById("newBody");
-//const newTags = document.getElementById("newTags");
 const newTags = document.getElementsByClassName("tagbox");
 const addPost = document.getElementById("addPost");
 addPost.addEventListener("click", addNew);
@@ -89,7 +92,7 @@ function addNew() {
     alert ("Please fill in the required fields");
     return;
   }
-/* defines new post object, newMsg, to be added to array from user input.
+/* defines new post object to be added to array from user input.
  Tags dealt with first to avoid unnecessarily setting other values if tags
  have not been chosen */
   else {
@@ -98,7 +101,7 @@ function addNew() {
     for (let i = 0; i < newTags.length; i++) {
       if (newTags[i].checked === true) {
         if (!tagEntered) {
-          newTagtxt += newTags[i].name;
+          newTagtxt = newTags[i].name;
           tagEntered = true;
         }
         else {
@@ -122,6 +125,9 @@ function addNew() {
     mainPage.innerHTML = "";
     newTitle.value = "";
     newBody.value = "";
+    for (let box of newTags) {
+      box.checked = false;
+    }
     renderPosts(postStorage);
     savePosts();
   }
@@ -132,5 +138,18 @@ function savePosts() {
   localStorage.clear();
   for (i = 0; i < postStorage.length; i++) {
     localStorage.setItem("post" + i, JSON.stringify(postStorage[i]));
+  }
+}
+
+// filters posts by tags/resets filter
+function newFilter(e) {
+  mainPage.innerText = "";
+  let tag = e.target.value;
+  if (tag === "all") {
+    renderPosts(postStorage);
+  }
+  else {
+    let filteredArray = postStorage.filter((post) => post.tags.includes(tag));
+  renderPosts(filteredArray);
   }
 }

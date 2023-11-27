@@ -103,9 +103,11 @@ summary {
     cursor: pointer;
 }
 
-#searchbar {
-    border-radius: 1.2rem;
-    padding: 0.5rem;
+#filter {
+    margin-left: 0.4rem;
+    border-radius: 2rem;
+    height: 2rem;
+    padding: 0.2rem;
 }
 
 form {
@@ -143,4 +145,8 @@ form {
     display: flex;
     gap: 0.5rem;
     justify-content: space-between;
+}
+
+label {
+    font-family: "Rokkitt";
 }
