@@ -19,18 +19,20 @@ addPost.addEventListener("click", addNew);
 // gets initial data from local storage and adds it to array
 if (localStorage.length > 0) {
   for (let i = 0; i < localStorage.length; i++) {
-    let item = localStorage.getItem(localStorage.key(i));
-    let obj = JSON.parse(item);
-    postStorage.push(obj);
+    if (localStorage.key(i).slice(0, 4) === "post") {
+      let item = localStorage.getItem(localStorage.key(i));
+      let obj = JSON.parse(item);
+      postStorage.push(obj);
+    }
   }
-// sorts stored posts by likes and renders them
+  // sorts stored posts by likes and renders them
   postStorage.sort((a, b) => b.reactions - a.reactions);
   renderPosts(postStorage);
 }
 // if no data is found in local storage, it is fetched from dummyJSON here
 else {
-  fetch('https://dummyjson.com/posts')
-    .then(res => res.json())
+  fetch("https://dummyjson.com/posts")
+    .then((res) => res.json())
     .then(function (response) {
       fillArray(response.posts);
     });
@@ -42,8 +44,8 @@ function fillArray(data) {
   for (let obj of data) {
     const newObj = {};
     newObj.title = obj.title;
-    newObj.body = obj.body; 
-//the 5 lines below puts commas and spaces between tags - done below for new posts
+    newObj.body = obj.body;
+    //the 5 lines below puts commas and spaces between tags - done below for new posts
     let text = "";
     for (i = 0; i < obj.tags.length; i++) {
       text += obj.tags[i] + ", ";
@@ -87,15 +89,14 @@ function renderPosts(arr) {
 
 // adds new posts and saves array of posts to local storage
 function addNew() {
-// checks text fields have not been left blank
+  // checks text fields have not been left blank
   if (newTitle.value === "" || newBody.value === "") {
-    alert ("Please fill in the required fields");
+    alert("Please fill in the required fields");
     return;
-  }
-/* defines new post object to be added to array from user input.
+  } else {
+    /* defines new post object to be added to array from user input.
  Tags dealt with first to avoid unnecessarily setting other values if tags
  have not been chosen */
-  else {
     let newTagtxt = "";
     let tagEntered = false;
     for (let i = 0; i < newTags.length; i++) {
@@ -103,20 +104,19 @@ function addNew() {
         if (!tagEntered) {
           newTagtxt = newTags[i].name;
           tagEntered = true;
+        } else {
+          newTagtxt += ", " + newTags[i].name;
         }
-        else {
-          newTagtxt += (", " + newTags[i].name);
-        }
+      }
     }
-    }
-/* checks for 1+ tags before adding new post at the start of the array/top of the page
+    /* checks for 1+ tags before adding new post at the start of the array/top of the page
  (on refresh, new posts are sorted by reactions along with all other posts) - this seemed 
  to me to be the best way to handle new posts, although it does mean that the code for sorting 
  posts is repeated rather than being included in the renderPosts() function */
     if (!tagEntered) {
       alert("Please choose at least one tag");
       return;
-  }
+    }
     newMsg.tags = newTagtxt;
     newMsg.title = newTitle.value;
     newMsg.body = newBody.value;
@@ -147,9 +147,8 @@ function newFilter(e) {
   let tag = e.target.value;
   if (tag === "all") {
     renderPosts(postStorage);
-  }
-  else {
+  } else {
     let filteredArray = postStorage.filter((post) => post.tags.includes(tag));
-  renderPosts(filteredArray);
+    renderPosts(filteredArray);
   }
 }
