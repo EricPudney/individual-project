@@ -1,13 +1,11 @@
 // defines area for posts to appear in and array for storing posts
 const mainPage = document.getElementById("posts");
-const postStorage = [];
+// let used rather than const to allow reassignment from locally stored array
+let postStorage = [];
 
-// creates dropdown
+// adds functionality to dropdown menu to filter posts by tag
 const filter = document.getElementById("filter");
 filter.addEventListener("change", newFilter);
-
-// defines new posts as objects
-let newMsg = {};
 
 // defines fields in form to add new posts
 const newTitle = document.getElementById("newTitle");
@@ -16,15 +14,10 @@ const newTags = document.getElementsByClassName("tagbox");
 const addPost = document.getElementById("addPost");
 addPost.addEventListener("click", addNew);
 
-// gets initial data from local storage and adds it to array
-if (localStorage.length > 0) {
-  for (let i = 0; i < localStorage.length; i++) {
-    if (localStorage.key(i).slice(0, 4) === "post") {
-      let item = localStorage.getItem(localStorage.key(i));
-      let obj = JSON.parse(item);
-      postStorage.push(obj);
-    }
-  }
+// gets post data from local storage and parses it
+if (localStorage.getItem("posts") !== null) {
+  let posts = localStorage.getItem("posts");
+  postStorage = JSON.parse(posts);
   // sorts stored posts by likes and renders them
   postStorage.sort((a, b) => b.reactions - a.reactions);
   renderPosts(postStorage);
@@ -39,13 +32,13 @@ else {
 }
 
 /* populates array from JSON data, sorts it by likes, and sends it to be rendered
- (see below for explanation of the repetition) */
+ (see below for explanation of repetitive code for sorting) */
 function fillArray(data) {
   for (let obj of data) {
     const newObj = {};
     newObj.title = obj.title;
     newObj.body = obj.body;
-    //the 5 lines below puts commas and spaces between tags - done below for new posts
+    //the 5 lines below put commas and spaces between tags - done in addNew for new posts
     let text = "";
     for (i = 0; i < obj.tags.length; i++) {
       text += obj.tags[i] + ", ";
@@ -70,7 +63,7 @@ function renderPosts(arr) {
     body.innerText = arr[i].body;
     let tags = document.createElement("span");
     tags.innerText = arr[i].tags;
-    //creates clickable like button and counter
+    //creates clickable like button and counter - save to local storage on clicking 'like'
     let react = document.createElement("div");
     let img = document.createElement("img");
     img.src = "images/thumb.jpg";
@@ -87,7 +80,7 @@ function renderPosts(arr) {
   }
 }
 
-// adds new posts and saves array of posts to local storage
+// adds new posts and saves all posts to local storage
 function addNew() {
   // checks text fields have not been left blank
   if (newTitle.value === "" || newBody.value === "") {
@@ -109,14 +102,15 @@ function addNew() {
         }
       }
     }
-    /* checks for 1+ tags before adding new post at the start of the array/top of the page
- (on refresh, new posts are sorted by reactions along with all other posts) - this seemed 
- to me to be the best way to handle new posts, although it does mean that the code for sorting 
- posts is repeated rather than being included in the renderPosts() function */
+    /* checks for 1+ tags before adding new post at the top of the page. On refresh, new posts 
+    are sorted by reactions along with all other posts). This seemed  to me to be the best way 
+    to handle new posts, although it means that the code for sorting  posts is repeated rather 
+    than being included in the renderPosts() function */
     if (!tagEntered) {
       alert("Please choose at least one tag");
       return;
     }
+    const newMsg = {};
     newMsg.tags = newTagtxt;
     newMsg.title = newTitle.value;
     newMsg.body = newBody.value;
@@ -136,9 +130,7 @@ function addNew() {
 // saves posts to local storage (after reaction or new post added)
 function savePosts() {
   localStorage.clear();
-  for (i = 0; i < postStorage.length; i++) {
-    localStorage.setItem("post" + i, JSON.stringify(postStorage[i]));
-  }
+  localStorage.setItem("posts", JSON.stringify(postStorage));
 }
 
 // filters posts by tags/resets filter
