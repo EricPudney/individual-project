@@ -63,6 +63,8 @@ function renderPosts(arr) {
     body.innerText = arr[i].body;
     let tags = document.createElement("span");
     tags.innerText = arr[i].tags;
+    let dltBtn = document.createElement("button");
+    dltBtn.innerText = "X";
     //creates clickable like button and counter - save to local storage on clicking 'like'
     let react = document.createElement("div");
     let img = document.createElement("img");
@@ -75,7 +77,13 @@ function renderPosts(arr) {
       likes.innerText = arr[i].reactions;
       savePosts();
     });
-    newPost.append(title, body, tags, react);
+    dltBtn.addEventListener("click", () => {
+      arr.splice(i, 1);
+      savePosts();
+      mainPage.innerHTML = "";
+      renderPosts(postStorage);
+    });
+    newPost.append(title, body, dltBtn, tags, react);
     mainPage.append(newPost);
   }
 }
