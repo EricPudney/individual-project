@@ -75,8 +75,8 @@ main {
 .post > button {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
-    width: 2vw;
-    height: 2vw;
+    width: 1.5rem;
+    height: 1.5rem;
     text-align: center;
     justify-self: end;
 }

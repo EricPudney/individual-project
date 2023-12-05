@@ -14,6 +14,16 @@ const newTags = document.getElementsByClassName("tagbox");
 const addPost = document.getElementById("addPost");
 addPost.addEventListener("click", addNew);
 
+// creates post class
+class Post {
+  constructor(title, body, tags, reactions) {
+    this.title = title;
+    this.body = body;
+    this.tags = tags;
+    this.reactions = reactions;
+  }
+}
+
 // gets post data from local storage and parses it
 if (localStorage.getItem("posts") !== null) {
   let posts = localStorage.getItem("posts");
@@ -31,21 +41,16 @@ else {
     });
 }
 
-/* populates array from JSON data, sorts it by likes, and sends it to be rendered
- (see below for explanation of repetitive code for sorting) */
+// populates array from JSON data, sorts it by likes, and sends it to be rendered
 function fillArray(data) {
   for (let obj of data) {
-    const newObj = {};
-    newObj.title = obj.title;
-    newObj.body = obj.body;
     //the 5 lines below put commas and spaces between tags - done in addNew for new posts
-    let text = "";
+    let formattedTags = "";
     for (i = 0; i < obj.tags.length; i++) {
-      text += obj.tags[i] + ", ";
+      formattedTags += obj.tags[i] + ", ";
     }
-    text = text.slice(0, text.length - 2);
-    newObj.tags = text;
-    newObj.reactions = obj.reactions;
+    formattedTags = formattedTags.slice(0, text.length - 2);
+    const newObj = new Post(obj.title, obj.body, formattedTags, obj.reactions);
     postStorage.push(newObj);
   }
   postStorage.sort((a, b) => b.reactions - a.reactions);
@@ -63,9 +68,10 @@ function renderPosts(arr) {
     body.innerText = arr[i].body;
     let tags = document.createElement("span");
     tags.innerText = arr[i].tags;
+    // creates delete button
     let dltBtn = document.createElement("button");
     dltBtn.innerText = "X";
-    //creates clickable like button and counter - save to local storage on clicking 'like'
+    // creates clickable like button and counter - save to local storage on clicking 'like'
     let react = document.createElement("div");
     let img = document.createElement("img");
     img.src = "images/thumb.jpg";
@@ -110,19 +116,14 @@ function addNew() {
         }
       }
     }
-    /* checks for 1+ tags before adding new post at the top of the page. On refresh, new posts 
-    are sorted by reactions along with all other posts). This seemed  to me to be the best way 
-    to handle new posts, although it means that the code for sorting  posts is repeated rather 
-    than being included in the renderPosts() function */
+    /* checks for 1+ tags before adding new post at the TOP of the page. On refresh, new posts 
+    are sorted by reactions along with all other posts. This is why the code for sorting  posts 
+    is repeated rather than being included in the renderPosts() function. */
     if (!tagEntered) {
       alert("Please choose at least one tag");
       return;
     }
-    const newMsg = {};
-    newMsg.tags = newTagtxt;
-    newMsg.title = newTitle.value;
-    newMsg.body = newBody.value;
-    newMsg.reactions = 0;
+    const newMsg = new Post(newTitle.value, newBody.value, newTagtxt, 0);
     postStorage.unshift(newMsg);
     mainPage.innerHTML = "";
     newTitle.value = "";
