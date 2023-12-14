@@ -14,7 +14,7 @@ const newTags = document.getElementsByClassName("tagbox");
 const addPost = document.getElementById("addPost");
 addPost.addEventListener("click", addNew);
 
-// creates post class
+// defines post class
 class Post {
   constructor(title, body, tags, reactions) {
     this.title = title;
@@ -49,7 +49,7 @@ function fillArray(data) {
     for (i = 0; i < obj.tags.length; i++) {
       formattedTags += obj.tags[i] + ", ";
     }
-    formattedTags = formattedTags.slice(0, text.length - 2);
+    formattedTags = formattedTags.slice(0, formattedTags.length - 2);
     const newObj = new Post(obj.title, obj.body, formattedTags, obj.reactions);
     postStorage.push(newObj);
   }
@@ -70,24 +70,31 @@ function renderPosts(arr) {
     tags.innerText = arr[i].tags;
     // creates delete button
     let dltBtn = document.createElement("button");
-    dltBtn.innerText = "X";
-    // creates clickable like button and counter - save to local storage on clicking 'like'
+    dltBtn.innerText = "x";
+    // creates like button and counter
     let react = document.createElement("div");
     let img = document.createElement("img");
     img.src = "images/thumb.jpg";
     let likes = document.createElement("button");
     likes.innerText = arr[i].reactions;
     react.append(img, likes);
+    // adds functionality to like counter and delete button
     react.addEventListener("click", () => {
       arr[i].reactions = parseInt(arr[i].reactions + 1);
       likes.innerText = arr[i].reactions;
       savePosts();
     });
     dltBtn.addEventListener("click", () => {
-      arr.splice(i, 1);
-      savePosts();
-      mainPage.innerHTML = "";
-      renderPosts(postStorage);
+      if (
+        window.confirm(
+          "Do you really want to delete this post? This action cannot be undone!"
+        )
+      ) {
+        arr.splice(i, 1);
+        savePosts();
+        mainPage.innerHTML = "";
+        renderPosts(postStorage);
+      }
     });
     newPost.append(title, body, dltBtn, tags, react);
     mainPage.append(newPost);
@@ -117,7 +124,7 @@ function addNew() {
       }
     }
     /* checks for 1+ tags before adding new post at the TOP of the page. On refresh, new posts 
-    are sorted by reactions along with all other posts. This is why the code for sorting  posts 
+    are sorted by reactions along with all other posts. This is why the code for sorting posts 
     is repeated rather than being included in the renderPosts() function. */
     if (!tagEntered) {
       alert("Please choose at least one tag");
@@ -125,6 +132,7 @@ function addNew() {
     }
     const newMsg = new Post(newTitle.value, newBody.value, newTagtxt, 0);
     postStorage.unshift(newMsg);
+    // clears all user input fields
     mainPage.innerHTML = "";
     newTitle.value = "";
     newBody.value = "";
@@ -138,7 +146,6 @@ function addNew() {
 
 // saves posts to local storage (after reaction or new post added)
 function savePosts() {
-  localStorage.clear();
   localStorage.setItem("posts", JSON.stringify(postStorage));
 }
 
